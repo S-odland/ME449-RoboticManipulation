@@ -805,32 +805,49 @@ def IKinBodyIterates(Blist, M, T, thetalist0, eomg, ev):
     Output:
         (np.array([1.57073819, 2.999667, 3.14153913]), True)
     """
+
+    ## below are the initial values for assignment 2
+
+    thetalist0 = np.array([-3.712,1,-1.659,-5.109,0.683,4.458])  
+    M = np.array([[-1,0,0,.817],[0,0,1,.191],[0,1,0,-.006],[0,0,0,1]])  
+    Blist = np.array([[0,0,0,0,0,0],[1,0,0,0,-1,0],[0,1,1,1,0,1],[.191,.095,.095,.095,-.082,0],[0,-.817,-.392,0,0,0],[.817,0,0,0,0,0]]) 
+    T = np.array([[0,1,0,-0.5],[0,0,-1,0.1],[-1,0,0,0.1],[0,0,0,1]])
+    eomg = 0.001
+    ev = 0.0001
+
+    ## done with initial values
+
     thetalist = np.array(thetalist0).copy()
     i = 0
     Vb = se3ToVec(MatrixLog6(np.dot(TransInv(FKinBody(M, Blist, thetalist)), T)))
-    err = np.linalg.norm([Vb[0], Vb[1], Vb[2]]) > eomg or np.linalg.norm([Vb[3], Vb[4], Vb[5]]) > ev
+    
+    eomg_act = np.linalg.norm([Vb[0], Vb[1], Vb[2]])
+    ev_act = np.linalg.norm([Vb[3], Vb[4], Vb[5]])
 
-    while err or i < 20:
+    err = eomg_act > eomg or ev_act > ev
 
-        print("Iteration ", i, ":\n", 
+    while err:
+
+        T_act = FKinBody(M, Blist, thetalist)
+
+        print(" Iteration", i, "\n\n", 
               "Joint Vector:\n", 
-              thetalist[0,0],thetalist[0,1],thetalist[0,2],thetalist[0,3],
+              thetalist[0],thetalist[1],thetalist[2],thetalist[3],thetalist[4],thetalist[5],"\n\n", 
               "SE(3) End-Effector Configuration:\n",
-              T[0,0],T[0,1],T[0,2],T[0,3],
-              T[1,0],T[1,1],T[1,2],T[1,3],
-              T[2,0],T[2,1],T[2,2],T[2,3],
-              T[3,0],T[3,1],T[3,2],T[3,3],
+              T_act[0,0],T_act[0,1],T_act[0,2],T_act[0,3],"\n", 
+              T_act[1,0],T_act[1,1],T_act[1,2],T_act[1,3],"\n", 
+              T_act[2,0],T_act[2,1],T_act[2,2],T_act[2,3],"\n", 
+              T_act[3,0],T_act[3,1],T_act[3,2],T_act[3,3],"\n\n", 
               "Error Twist Vb:\n",
-              Vb[0],Vb[1],Vb[2],Vb[3],Vb[4],Vb[5],
-              "Angular Error Magnitude || omega_b ||: ",eomg_act,
-              "Linear Error Magnitude ||v_b||: ",ev_act)
+              Vb[0],Vb[1],Vb[2],Vb[3],Vb[4],Vb[5],"\n\n", 
+              "Angular Error Magnitude || omega_b ||:",eomg_act,"\n\n", 
+              "Linear Error Magnitude ||v_b||:",ev_act,"\n\n",
+              err) 
 
         i = i + 1
         thetalist = thetalist + np.dot(np.linalg.pinv(JacobianBody(Blist, thetalist)), Vb)
 
         Vb = se3ToVec(MatrixLog6(np.dot(TransInv(FKinBody(M, Blist, thetalist)), T)))
-
-        T = FKinBody(M, Blist, thetalist)
 
         eomg_act = np.linalg.norm([Vb[0], Vb[1], Vb[2]])
         ev_act = np.linalg.norm([Vb[3], Vb[4], Vb[5]])
