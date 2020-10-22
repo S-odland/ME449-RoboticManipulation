@@ -878,7 +878,7 @@ def IKinBodyIterates(Blist, M, T, thetalist0, eomg, ev):
     f = open("output.csv", "w") 
 
     for i in range(len(iter_thetas)):
-        output = " %10.6f, %10.6f, %10.6f, %10.6f, %10.6f, %10.6f\n" % (iter_thetas[i,0], iter_thetas[i,1], iter_thetas[i,2], 
+        output = "%7.6f,%7.6f,%7.6f,%7.6f,%7.6f,%7.6f\n" % (iter_thetas[i,0], iter_thetas[i,1], iter_thetas[i,2], 
                                                                         iter_thetas[i,3], iter_thetas[i,4], iter_thetas[i,5])
         f.write(output)
 
