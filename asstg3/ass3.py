@@ -29,3 +29,7 @@ Slist = [[0,         0,         0,         0,        0,        0],
 ## my own code from here on out
 
 g = [0,0,-9.81]
+
+## All we need to use is the mr.forwardynamics function to find thetadd
+## taulist is going to be equal to 0
+## ftip is also going to be 0
