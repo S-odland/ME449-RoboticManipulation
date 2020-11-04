@@ -743,7 +743,7 @@ def IKinBody(Blist, M, T, thetalist0, eomg, ev):
     """
     thetalist = np.array(thetalist0).copy()
     i = 0
-    maxiterations = 20
+    maxiterations = 2
     Vb = se3ToVec(MatrixLog6(np.dot(TransInv(FKinBody(M, Blist, \
                                                       thetalist)), T)))
     err = np.linalg.norm([Vb[0], Vb[1], Vb[2]]) > eomg \
