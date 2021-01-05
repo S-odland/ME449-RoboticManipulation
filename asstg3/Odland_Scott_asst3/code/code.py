@@ -55,12 +55,9 @@ def free_fall():
     ## Glist --> spatial intertia matrices of the links (will remain the same throughout)
     ## Slist --> screw axis of the joints in a space frame
 
-## this is part 1 (0 joint angles for 3 seconds)
-
     iter_thetas1 = np.array(thetalist1.copy())
     i = 0
     p1 = 300 ## 3 seconds for part 1
-
 
     while i < p1:
         i += 1
@@ -74,10 +71,8 @@ def free_fall():
         output_1 = "%7.6f,%7.6f,%7.6f,%7.6f,%7.6f,%7.6f\n" % (iter_thetas1[i,0], iter_thetas1[i,1], iter_thetas1[i,2], 
                                                                         iter_thetas1[i,3], iter_thetas1[i,4], iter_thetas1[i,5])
         f.write(output_1)
-# output 1 is for part 1
-    f.close()
 
-## this is part 2 (joint angles 1,2 at -1 for 5 seconds)
+    f.close()
 
     p2 = 500 ## 5 seconds for part 2
     iter_thetas2 = np.array(thetalist2.copy())
@@ -95,5 +90,5 @@ def free_fall():
         output_2 = "%7.6f,%7.6f,%7.6f,%7.6f,%7.6f,%7.6f\n" % (iter_thetas2[i,0], iter_thetas2[i,1], iter_thetas2[i,2], 
                                                                         iter_thetas2[i,3], iter_thetas2[i,4], iter_thetas2[i,5])
         f.write(output_2)
-# output 2 is for part 2
+
     f.close()
